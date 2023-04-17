@@ -16,18 +16,22 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Padding="20"
-          RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
-          ColumnDefinitions="Auto, *">
+    <Grid
+        Padding="30"
+        ColumnSpacing="10"
+        RowSpacing="10"
+        HorizontalOptions="Fill"
+        RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
+        ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto, Auto, *, *">
 
         <Image x:Name="AlbumArt"
                Grid.Row="0"
                Grid.Column="0"
-               Grid.RowSpan="8"
+               Grid.RowSpan="9"
                WidthRequest="150"
                HeightRequest="150"
                Margin="0,0,20,0"
-               Aspect="AspectFill" />
+               Aspect="Center" />
 
         <Label Text="ID"
                FontSize="16"
@@ -88,23 +92,35 @@
             HorizontalOptions="Center"
             Grid.Row="12"
             Grid.Column="0"
-            TextColor="WhiteSmoke"
-            />
+            TextColor="WhiteSmoke" />
 
-        <HorizontalStackLayout
-            Margin="20" Grid.Column="0"
-            Grid.Row="13"
-            Grid.ColumnSpan="3">
-            <Button x:Name="PreviousButton" Text="Previous" Clicked="PreviousButton_OnClicked" 
-                    Grid.Column="1"
-                    HorizontalOptions="Center" />
-            <Button x:Name="PlayPauseButton" Text="Play/Pause" Clicked="PlayPauseButton_OnClicked" 
-                    Grid.Column="0"
-                    HorizontalOptions="Center" />
-            <Button x:Name="NextButton" Text="Next" Clicked="NextButton_OnClicked" 
-                    Grid.Column="2"
-                    HorizontalOptions="Center" />
-        </HorizontalStackLayout>
+        <Grid Grid.Column="0"
+              Grid.Row="13"
+              Grid.ColumnSpan="9"
+              VerticalOptions="Start"
+              HorizontalOptions="Center"
+              ColumnDefinitions="*, *, *"
+              RowDefinitions="Auto">
 
+            <ImageButton x:Name="PreviousButton"
+                         Clicked="PreviousButton_OnClicked"
+                         Source="previous_button.png"
+                         HeightRequest="50"
+                         Grid.Column="0" />
+
+            <ImageButton x:Name="PlayPauseButton"
+                         Clicked="PlayPauseButton_OnClicked"
+                         Source="play.png"
+                         HeightRequest="50"
+                         Grid.Column="1" />
+
+            <ImageButton x:Name="NextButton"
+                         Clicked="NextButton_OnClicked"
+                         Source="next_button.png"
+                         HeightRequest="50"
+                         Grid.Column="2" />
+
+        </Grid>
     </Grid>
+
 </ContentPage>

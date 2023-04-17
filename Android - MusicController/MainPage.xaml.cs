@@ -275,7 +275,6 @@ public partial class MainPage : ContentPage
 
     private async Task SaveImageToFileAsync(byte[] imageDate, string fileName)
     {
-        ///data/user/0/com.kakisanovichirko.android___musiccontroller/files/20230415-220828_received_image.png
         var appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         var filePath = Path.Combine(appDataDirectory, fileName);
 
