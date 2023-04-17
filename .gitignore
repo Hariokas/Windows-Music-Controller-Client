@@ -1,0 +1,32 @@
+echo "# Visual Studio cache files
+.vs/
+# Compiled files
+bin/
+obj/
+# .NET MAUI-specific files
+*.appiconset
+*.launchimage
+*.bundle
+*.xcassets
+*.nupkg
+*.p12
+*.csproj.user
+*.xproj.user
+*.userprefs
+*.targets
+*.props
+*.nuget.props
+*.nuget.targets
+*.editorconfig
+*.maui.app
+*.ios.csproj
+*.ios.msbuild
+*.android.csproj
+*.android.msbuild
+*.macos.csproj
+*.macos.msbuild
+# JetBrains Rider files
+.idea/
+*.sln.iml" > .gitignore
+#Certificate
+*.pfx

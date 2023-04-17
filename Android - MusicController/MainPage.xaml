@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Android___MusicController"
+             x:Class="Android___MusicController.MainPage"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             Title="Home">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="BackgroundColor">#1E1E1E</Color>
+            <Color x:Key="ForegroundColor">#F2F2F2</Color>
+            <Color x:Key="PrimaryColor">#2196F3</Color>
+            <Color x:Key="AccentColor">#FF4081</Color>
+            <Color x:Key="DisabledColor">#A0A0A0</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid Padding="20"
+          RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+          ColumnDefinitions="Auto, *">
+
+        <Image x:Name="AlbumArt"
+               Grid.Row="0"
+               Grid.Column="0"
+               Grid.RowSpan="8"
+               WidthRequest="150"
+               HeightRequest="150"
+               Margin="0,0,20,0"
+               Aspect="AspectFill" />
+
+        <Label Text="ID"
+               FontSize="16"
+               TextColor="White"
+               Grid.Row="0"
+               Grid.Column="0" />
+        <Label x:Name="IdLabel"
+               TextColor="#F7CA18"
+               Grid.Row="1"
+               Grid.Column="0" />
+
+        <Label Text="Artist"
+               FontSize="16"
+               TextColor="White"
+               Grid.Row="2"
+               Grid.Column="0" />
+        <Label x:Name="ArtistLabel"
+               TextColor="#F7CA18"
+               Grid.Row="3"
+               Grid.Column="0" />
+
+        <Label Text="Media Session"
+               FontSize="16"
+               TextColor="White"
+               Grid.Row="4"
+               Grid.Column="0" />
+        <Label x:Name="MediaSessionLabel"
+               TextColor="#F7CA18"
+               Grid.Row="5"
+               Grid.Column="0" />
+
+        <Label Text="Status"
+               FontSize="16"
+               TextColor="White"
+               Grid.Row="6"
+               Grid.Column="0" />
+        <Label x:Name="PlaybackStatusLabel"
+               TextColor="#F7CA18"
+               Grid.Row="7"
+               Grid.Column="0" />
+
+        <Label Text="Song"
+               FontSize="16"
+               TextColor="White"
+               Grid.Row="8"
+               Grid.Column="0" />
+        <Label x:Name="SongNameLabel"
+               TextColor="#F7CA18"
+               Grid.Row="9"
+               Grid.Column="0" />
+
+        <Label
+            x:Name="WebSocketLbl"
+            Text=""
+            SemanticProperties.HeadingLevel="Level2"
+            SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+            FontSize="16"
+            HorizontalOptions="Center"
+            Grid.Row="12"
+            Grid.Column="0"
+            TextColor="WhiteSmoke"
+            />
+
+        <HorizontalStackLayout
+            Margin="20" Grid.Column="0"
+            Grid.Row="13"
+            Grid.ColumnSpan="3">
+            <Button x:Name="PreviousButton" Text="Previous" Clicked="PreviousButton_OnClicked" 
+                    Grid.Column="1"
+                    HorizontalOptions="Center" />
+            <Button x:Name="PlayPauseButton" Text="Play/Pause" Clicked="PlayPauseButton_OnClicked" 
+                    Grid.Column="0"
+                    HorizontalOptions="Center" />
+            <Button x:Name="NextButton" Text="Next" Clicked="NextButton_OnClicked" 
+                    Grid.Column="2"
+                    HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+
+    </Grid>
+</ContentPage>
