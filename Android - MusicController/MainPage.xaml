@@ -8,80 +8,95 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Color x:Key="BackgroundColor">#1E1E1E</Color>
-            <Color x:Key="ForegroundColor">#F2F2F2</Color>
-            <Color x:Key="PrimaryColor">#2196F3</Color>
-            <Color x:Key="AccentColor">#FF4081</Color>
-            <Color x:Key="DisabledColor">#A0A0A0</Color>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid
         Padding="30"
-        ColumnSpacing="10"
-        RowSpacing="10"
         HorizontalOptions="Fill"
-        RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
-        ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto, Auto, *, *">
+        RowDefinitions="40*, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
+        ColumnDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, *">
 
-        <Image x:Name="AlbumArt"
-               Grid.Row="0"
-               Grid.Column="0"
-               Grid.RowSpan="9"
-               WidthRequest="150"
-               HeightRequest="150"
-               Margin="0,0,20,0"
-               Aspect="Center" />
+        <Grid Grid.Column="0"
+              Grid.Row="0"
+              Grid.ColumnSpan="7"
+              VerticalOptions="Center"
+              HorizontalOptions="Center"
+              ColumnDefinitions="*"
+              RowDefinitions="*"
+              Padding="20">
+
+            <Image x:Name="AlbumArt"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Source="{Binding AlbumArtSource}"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <Frame Grid.Row="1" Grid.Column="0"
+               Grid.ColumnSpan="7"
+               Grid.RowSpan="10"
+               BackgroundColor="{StaticResource ForegroundColor}"
+               Margin="-15" HasShadow="False"
+               BorderColor="#00000000"/>
 
         <Label Text="ID"
                FontSize="16"
-               TextColor="White"
-               Grid.Row="0"
+               TextColor="{StaticResource PrimaryColor}"
+               Grid.Row="1"
                Grid.Column="0" />
         <Label x:Name="IdLabel"
-               TextColor="#F7CA18"
-               Grid.Row="1"
+               TextColor="{StaticResource AccentColor}"
+               Text="{Binding IdLabelText}"
+               Grid.Row="2"
                Grid.Column="0" />
 
         <Label Text="Artist"
                FontSize="16"
-               TextColor="White"
-               Grid.Row="2"
+               TextColor="{StaticResource PrimaryColor}"
+               Grid.Row="3"
                Grid.Column="0" />
         <Label x:Name="ArtistLabel"
-               TextColor="#F7CA18"
-               Grid.Row="3"
+               TextColor="{StaticResource AccentColor}"
+               Text="{Binding ArtistLabelText}"
+               Grid.Row="4"
                Grid.Column="0" />
 
         <Label Text="Media Session"
                FontSize="16"
-               TextColor="White"
-               Grid.Row="4"
+               TextColor="{StaticResource PrimaryColor}"
+               Grid.Row="5"
                Grid.Column="0" />
         <Label x:Name="MediaSessionLabel"
-               TextColor="#F7CA18"
-               Grid.Row="5"
+               TextColor="{StaticResource AccentColor}"
+               Text="{Binding MediaSessionLabelText}"
+               Grid.Row="6"
                Grid.Column="0" />
 
         <Label Text="Status"
                FontSize="16"
-               TextColor="White"
-               Grid.Row="6"
+               TextColor="{StaticResource PrimaryColor}"
+               Grid.Row="7"
                Grid.Column="0" />
         <Label x:Name="PlaybackStatusLabel"
-               TextColor="#F7CA18"
-               Grid.Row="7"
+               TextColor="{StaticResource AccentColor}"
+               Text="{Binding PlaybackStatusLabelText}"
+               Grid.Row="8"
                Grid.Column="0" />
 
         <Label Text="Song"
                FontSize="16"
-               TextColor="White"
-               Grid.Row="8"
-               Grid.Column="0" />
-        <Label x:Name="SongNameLabel"
-               TextColor="#F7CA18"
+               TextColor="{StaticResource PrimaryColor}"
                Grid.Row="9"
                Grid.Column="0" />
+        <Label x:Name="SongNameLabel"
+                TextColor="{StaticResource AccentColor}"
+                Text="{Binding SongNameLabelText}"
+                Grid.Row="10"
+                Grid.Column="0" />
 
         <Label
             x:Name="WebSocketLbl"
@@ -96,30 +111,41 @@
 
         <Grid Grid.Column="0"
               Grid.Row="13"
-              Grid.ColumnSpan="9"
-              VerticalOptions="Start"
+              Grid.ColumnSpan="7"
+              VerticalOptions="End"
               HorizontalOptions="Center"
               ColumnDefinitions="*, *, *"
-              RowDefinitions="Auto">
+              RowDefinitions="Auto"
+              Padding="20">
+
+            <Frame Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   BackgroundColor="{StaticResource ForegroundColor}"
+                   Margin="-20"
+                   HasShadow="False"
+                   BorderColor="#00000000"
+                   CornerRadius="50"/>
 
             <ImageButton x:Name="PreviousButton"
                          Clicked="PreviousButton_OnClicked"
                          Source="previous_button.png"
                          HeightRequest="50"
-                         Grid.Column="0" />
+                         Grid.Column="0" 
+                         Margin="10"/>
 
             <ImageButton x:Name="PlayPauseButton"
                          Clicked="PlayPauseButton_OnClicked"
                          Source="play.png"
                          HeightRequest="50"
-                         Grid.Column="1" />
+                         Grid.Column="1"
+                         Margin="10"/>
 
             <ImageButton x:Name="NextButton"
                          Clicked="NextButton_OnClicked"
                          Source="next_button.png"
                          HeightRequest="50"
-                         Grid.Column="2" />
-
+                         Grid.Column="2"
+                         Margin="10"/>
         </Grid>
     </Grid>
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Android___MusicController.SessionsPage"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             Title="Media Sessions">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Sessions" FontSize="Large" HorizontalOptions="Center" />
+            <ListView x:Name="SessionsListView" ItemsSource="{Binding MediaSessions}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="300">
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="{Binding PlayerId}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
+                                <Label Text="{Binding PlayerName}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
+                                <Label Text="{Binding Artist}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
+                                <Label Text="{Binding SongName}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
+                                <Label Text="{Binding PlaybackStatus}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

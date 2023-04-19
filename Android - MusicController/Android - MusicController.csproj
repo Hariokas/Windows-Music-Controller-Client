@@ -68,8 +68,37 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\Banana_1000x1000.png" />
+	  <None Remove="Resources\Images\number3.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources.xaml.cs">
+	    <DependentUpon>Resources.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="EqualizerPage.xaml.cs">
+	    <DependentUpon>EqualizerPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="SessionsPage.xaml.cs">
+	    <DependentUpon>SessionsPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Resources.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="EqualizerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SessionsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
