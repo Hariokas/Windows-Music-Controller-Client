@@ -25,12 +25,23 @@ public class WebSocketService
             {
                 _clientWebSocket?.Dispose();
                 _clientWebSocket = new ClientWebSocket();
-                await _clientWebSocket.ConnectAsync(new Uri("ws://192.168.0.107:8080"), CancellationToken.None);
+
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3)))
+                {
+                    Debug.WriteLine("Connecting to the host");
+                    await _clientWebSocket.ConnectAsync(new Uri($"ws://{ipAddress}:{port}"), cts.Token);
+                }
+
+                Debug.WriteLine($"Connected to host at ws://{ipAddress}:{port}");
                 await ReceiveMessagesAsync();
             }
             catch (WebSocketException ex)
             {
                 Debug.WriteLine($"WebSocket Error: {ex.Message}");
+            }
+            catch (OperationCanceledException ex)
+            {
+                Debug.WriteLine($"Connection Timeout: {ex.Message}");
             }
             catch (Exception ex)
             {
@@ -50,10 +61,13 @@ public class WebSocketService
                     }
             }
 
-            //reconnect after a delay
+            // Reconnect after a delay
+            Debug.WriteLine("Connection lost");
             await Task.Delay(TimeSpan.FromSeconds(5));
+            Debug.WriteLine("Reconnecting to the host...");
         }
     }
+
 
     private async Task ReceiveMessagesAsync()
     {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Android___MusicController"
              x:Class="Android___MusicController.SessionsPage"
              BackgroundColor="{StaticResource BackgroundColor}"
              Title="Media Sessions">
@@ -15,23 +16,74 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Sessions" FontSize="Large" HorizontalOptions="Center" />
-            <ListView x:Name="SessionsListView" ItemsSource="{Binding MediaSessions}">
+            <Label Text="Media Sessions" FontSize="Large" HorizontalOptions="Center" TextColor="{StaticResource PrimaryColor}" Margin="0,20,0,20" />
+            <CollectionView x:Name="SessionsListView" ItemsSource="{Binding MediaSessions}" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="Auto, *" Margin="3, 3">
+
+                            <Frame BackgroundColor="{StaticResource ForegroundColor}"
+                                   Grid.ColumnSpan="2"
+                                   Grid.RowSpan="2"
+                                   Padding="20"
+                                   HasShadow="False"
+                                   BorderColor="#33F07B7B"
+                                   CornerRadius="5"/>
+                            
+                            <Label Text="{Binding PlayerName}" TextColor="{StaticResource PrimaryColor}" 
+                                   FontSize="Small" 
+                                   LineBreakMode="WordWrap" VerticalOptions="Center" HorizontalOptions="Start"
+                                   Grid.Row="0" Grid.Column="0" 
+                                   Margin="10,10,0,0" />
+                            
+                            <Label Text="{Binding PlaybackStatus}" TextColor="{StaticResource PrimaryColor}" 
+                                   FontSize="Small"
+                                   LineBreakMode="WordWrap" VerticalOptions="Center" HorizontalOptions="Start"
+                                   Grid.Row="1" Grid.Column="0" 
+                                   Margin="10,0,0,10" />
+                            
+                            <Label Text="{Binding Artist}" TextColor="{StaticResource PrimaryColor}" 
+                                   FontSize="Small" 
+                                   LineBreakMode="WordWrap" VerticalOptions="Center" HorizontalOptions="Start"
+                                   Grid.Row="0" Grid.Column="1" 
+                                   Padding="10,10,0,0"  />
+                            
+                            <Label Text="{Binding SongName}" TextColor="{StaticResource PrimaryColor}" 
+                                   FontSize="Small"
+                                   LineBreakMode="WordWrap" VerticalOptions="Center" HorizontalOptions="Start"
+                                   Grid.Row="1" Grid.Column="1" 
+                                   Padding="10,0,0,10" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+
+    <!--<ContentPage.Content>
+        <StackLayout>
+            <Label Text="Media Sessions" FontSize="Large" HorizontalOptions="Center" TextColor="{StaticResource PrimaryColor}" Margin="0,20,0,20" />
+            <ListView x:Name="SessionsListView" ItemsSource="{Binding MediaSessions}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell Height="300">
+                        <ViewCell>
                             <StackLayout Orientation="Vertical">
-                                <Label Text="{Binding PlayerId}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
-                                <Label Text="{Binding PlayerName}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
-                                <Label Text="{Binding Artist}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
-                                <Label Text="{Binding SongName}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
-                                <Label Text="{Binding PlaybackStatus}" TextColor="{StaticResource PrimaryColor}" FontSize="Small"/>
+                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="Auto, Auto">
+                                    <Label Text="{Binding PlayerName}" TextColor="{StaticResource PrimaryColor}" FontSize="Small" Grid.Row="0" Grid.Column="0" Margin="10,0,0,0" />
+                                    <Label Text="{Binding PlaybackStatus}" TextColor="{StaticResource PrimaryColor}" FontSize="Small" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" />
+                                    <Frame Grid.Row="0" Grid.Column="1" Padding="10,0,0,0" IsClippedToBounds="true" BackgroundColor="#00FFFFFF" BorderColor="#00FFFFFF">
+                                        <Label Text="{Binding Artist}" TextColor="{StaticResource PrimaryColor}" FontSize="Small" />
+                                    </Frame>
+                                    <Frame Grid.Row="1" Grid.Column="1" Padding="10,0,0,0" IsClippedToBounds="true" BackgroundColor="#00FFFFFF" BorderColor="#00FFFFFF">
+                                        <Label Text="{Binding SongName}" TextColor="{StaticResource PrimaryColor}" FontSize="Small" />
+                                    </Frame>
+                                </Grid>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
-    </ContentPage.Content>
+    </ContentPage.Content>-->
 
 </ContentPage>

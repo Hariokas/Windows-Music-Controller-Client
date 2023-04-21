@@ -40,7 +40,7 @@
                Grid.ColumnSpan="7"
                Grid.RowSpan="10"
                BackgroundColor="{StaticResource ForegroundColor}"
-               Margin="-15" HasShadow="False"
+               Margin="-10" HasShadow="False"
                BorderColor="#00000000"/>
 
         <Label Text="ID"
@@ -121,29 +121,30 @@
             <Frame Grid.Column="0"
                    Grid.ColumnSpan="3"
                    BackgroundColor="{StaticResource ForegroundColor}"
-                   Margin="-20"
+                   Margin="-10, 0"
                    HasShadow="False"
                    BorderColor="#00000000"
                    CornerRadius="50"/>
 
             <ImageButton x:Name="PreviousButton"
                          Clicked="PreviousButton_OnClicked"
-                         Source="previous_button.png"
-                         HeightRequest="50"
+                         Source="previous.png"
+                         HeightRequest="80"
                          Grid.Column="0" 
                          Margin="10"/>
 
             <ImageButton x:Name="PlayPauseButton"
                          Clicked="PlayPauseButton_OnClicked"
                          Source="play.png"
-                         HeightRequest="50"
+                         HeightRequest="100"
+                         WidthRequest="100"
                          Grid.Column="1"
                          Margin="10"/>
 
             <ImageButton x:Name="NextButton"
                          Clicked="NextButton_OnClicked"
-                         Source="next_button.png"
-                         HeightRequest="50"
+                         Source="next.png"
+                         HeightRequest="80"
                          Grid.Column="2"
                          Margin="10"/>
         </Grid>

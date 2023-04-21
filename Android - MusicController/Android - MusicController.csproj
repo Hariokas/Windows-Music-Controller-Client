@@ -69,7 +69,16 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\Banana_1000x1000.png" />
-	  <None Remove="Resources\Images\number3.png" />
+	  <None Remove="Resources\Images\equalizer.png" />
+	  <None Remove="Resources\Images\home.png" />
+	  <None Remove="Resources\Images\next.png" />
+	  <None Remove="Resources\Images\pause.png" />
+	  <None Remove="Resources\Images\play.png" />
+	  <None Remove="Resources\Images\playlist.png" />
+	  <None Remove="Resources\Images\previous.png" />
+	  <None Remove="Resources\Images\volume.png" />
+	  <None Remove="Resources\Images\volume_down.png" />
+	  <None Remove="Resources\Images\volume_up.png" />
 	</ItemGroup>
 
 	<ItemGroup>
