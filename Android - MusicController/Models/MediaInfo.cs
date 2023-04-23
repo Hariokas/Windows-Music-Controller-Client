@@ -13,4 +13,6 @@ public class MediaInfo
     public string PlaybackStatus { get; set; }
 
     public ImageSource AlbumArtImage { get; set; }
+    public TimeSpan SongLength { get; set; }
+    public TimeSpan CurrentPlaybackTime { get; set; }
 }

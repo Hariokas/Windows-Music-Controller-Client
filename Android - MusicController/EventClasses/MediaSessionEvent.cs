@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Android___MusicController.EventClasses;
 
-namespace Android___MusicController.EventClasses
+public enum MediaSessionEventType
 {
+    NewSession,
+    CloseSession,
+    SongChanged,
+    PlaybackStatusChanged,
+    SessionFocusChanged,
+    Play,
+    Pause,
+    Previous,
+    Next
+}
 
-    public enum MediaSessionEventType
+public class MediaSessionEvent : BaseEvent
+{
+    public MediaSessionEvent()
     {
-        NewSession,
-        CloseSession,
-        SongChanged,
-        PlaybackStatusChanged,
-        SessionFocusChanged,
-        Play,
-        Pause,
-        Previous,
-        Next
+        EventType = BaseEventType.MediaSessionEvent;
     }
 
-    public class MediaSessionEvent
-    {
-        public MediaSessionEventType MediaSessionEventType { get; set; }
-        public int MediaSessionId { get; set; }
-        public string MediaSessionName { get; set; }
-        public string Artist { get; set; }
-        public string SongName { get; set; }
-        public string PlaybackStatus { get; set; }
-    }
+    public MediaSessionEventType MediaSessionEventType { get; set; }
+    public TimeSpan SongLength { get; set; }
+    public TimeSpan CurrentPlaybackTime { get; set; }
+    public DateTime Timestamp { get; set; }
+    public int MediaSessionId { get; set; }
+    public string MediaSessionName { get; set; }
+    public string Artist { get; set; }
+    public string SongName { get; set; }
+    public string PlaybackStatus { get; set; }
 }

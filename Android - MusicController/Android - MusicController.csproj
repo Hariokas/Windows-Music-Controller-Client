@@ -35,6 +35,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
 	  <Debugger>Xamarin</Debugger>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -90,22 +91,28 @@
 	  <Compile Update="Resources.xaml.cs">
 	    <DependentUpon>Resources.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="EqualizerPage.xaml.cs">
+	  <Compile Update="HamburgerMenuPages\EqualizerPage.xaml.cs">
 	    <DependentUpon>EqualizerPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="SessionsPage.xaml.cs">
+	  <Compile Update="HamburgerMenuPages\SessionsPage.xaml.cs">
 	    <DependentUpon>SessionsPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="HamburgerMenuPages\MasterVolumePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HamburgerMenuPages\VolumeMixerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="EqualizerPage.xaml">
+	  <MauiXaml Update="HamburgerMenuPages\EqualizerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="SessionsPage.xaml">
+	  <MauiXaml Update="HamburgerMenuPages\SessionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

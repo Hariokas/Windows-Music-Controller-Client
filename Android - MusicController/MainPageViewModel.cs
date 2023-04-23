@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Android___MusicController.Controllers;
 using Android___MusicController.EventClasses;
 using Android___MusicController.Handlers;
 using Android___MusicController.Models;
@@ -10,40 +11,82 @@ namespace Android___MusicController;
 
 public class MainPageViewModel : INotifyPropertyChanged
 {
+    private readonly MasterVolumeController _masterVolumeController;
     private readonly MediaSessionHandler _mediaSessionHandler;
     private readonly WebSocketHandler _webSocketHandler;
 
     private ImageSource _albumArtSource = "banana_1000x1000.png";
-
-    private string _playbackStatusLabel;
-    private string _playbackInfoLabel;
     private string _artistLabelText = "Artist Label";
     private string _idLabelText = "ID Label";
+
+    private bool _isMuted;
+    private float _masterSoundLevel = 1;
     private string _mediaSessionLabelText = "Media Session Label";
+    private string _playbackInfoLabel;
+    private TimeSpan _playbackPosition;
+    private double _playbackProgress;
+
+    private string _playbackStatusLabel;
     private string _playbackStatusLabelText = "Playback Status Label";
+
+    private CancellationTokenSource _playbackTimerCancellationTokenSource = new();
+    private TimeSpan _songDuration;
     private string _songNameLabelText = "Song Name Label";
 
     private int hashOfLastImage;
     private int hashOfLastMessage;
 
+    private bool _timerRunning;
+
     public MainPageViewModel(WebSocketHandler webSocketHandler, MediaSessionHandler mediaSessionHandler)
     {
         _webSocketHandler = webSocketHandler;
         _mediaSessionHandler = mediaSessionHandler;
+        _masterVolumeController = MasterVolumeController.Instance;
 
-        _webSocketHandler.MasterVolumeInfoReceived += MasterVolume_InfoReceived;
         _webSocketHandler.MediaSessionInfoReceived += MediaSession_InfoReceived;
         _webSocketHandler.VolumeMixerInfoReceived += VolumeMixer_InfoReceived;
         _webSocketHandler.OnBinaryMessageReceived += WebSocketService_OnBinaryMessageReceived;
 
         _mediaSessionHandler.PropertyChanged += MediaSessionHandlerPropertyChanged;
+        _mediaSessionHandler.PlaybackStatusChanged += MediaSessionHandler_PlaybackStatusChanged;
+
+        _masterVolumeController.PropertyChanged += MasterVolumeController_PropertyChanged;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
+    private async void MediaSessionHandler_PlaybackStatusChanged(object sender, PlaybackStatusChangedEventArgs e)
+    {
+        if (e.PlaybackStatus == "Paused" && _timerRunning)
+        {
+            _playbackTimerCancellationTokenSource.Cancel();
+        }
+        else if (e.PlaybackStatus == "Playing" && !_timerRunning)
+        {
+            _playbackTimerCancellationTokenSource = new CancellationTokenSource();
+            StartPlaybackTimer();
+        }
+    }
+
+    private void MasterVolumeController_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(MasterVolumeController.IsMuted):
+                OnPropertyChanged(nameof(IsMuted));
+                break;
+            case nameof(MasterVolumeController.SoundLevel):
+                OnPropertyChanged(nameof(MasterSoundLevel));
+                break;
+        }
+    }
+
     private void VolumeMixer_InfoReceived(object sender, VolumeMixerEventArgs e)
     {
         Trace.WriteLine("VolumeMixer_InfoReceived");
+        var a = e.VolumeMixerEvent;
+        var b = "wsup";
     }
 
     private void MediaSession_InfoReceived(object sender, MediaSessionEventArgs e)
@@ -51,11 +94,6 @@ public class MainPageViewModel : INotifyPropertyChanged
         if (e.GetHashCode() == hashOfLastMessage) return;
         _mediaSessionHandler.HandleMediaSessionEvent(e.MediaSessionEvent);
         hashOfLastMessage = e.GetHashCode();
-    }
-
-    private void MasterVolume_InfoReceived(object sender, MasterVolumeEventArgs e)
-    {
-        Trace.WriteLine("MasterVolume_InfoReceived");
     }
 
     private void MediaSessionHandlerPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -83,13 +121,35 @@ public class MainPageViewModel : INotifyPropertyChanged
     {
         if (mediaSession == null) return;
 
-        //IdLabelText = mediaSession.PlayerId.ToString();
-        //MediaSessionLabelText = mediaSession.PlayerName;
         ArtistLabelText = mediaSession.Artist;
         SongNameLabelText = mediaSession.SongName;
         PlaybackStatusLabelText = mediaSession.PlaybackStatus;
         PlaybackStatusLabel = $"{mediaSession.PlaybackStatus} on {mediaSession.PlayerName}";
         PlaybackInfoLabel = $"[{mediaSession.Artist}] - {mediaSession.SongName}";
+        PlaybackPosition = mediaSession.CurrentPlaybackTime;
+        SongDuration = mediaSession.SongLength;
+        PlaybackProgress = mediaSession.CurrentPlaybackTime.TotalSeconds / mediaSession.SongLength.TotalSeconds;
+    }
+
+    private async void StartPlaybackTimer()
+    {
+        if (_timerRunning) return;
+
+        _timerRunning = true;
+
+        var token = _playbackTimerCancellationTokenSource.Token;
+        while (!token.IsCancellationRequested)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1), token);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                PlaybackPosition += TimeSpan.FromSeconds(1);
+                PlaybackProgress = PlaybackPosition.TotalSeconds / SongDuration.TotalSeconds;
+            });
+        }
+
+        _timerRunning = false;
+
     }
 
     private void LoadImageFromByteArray(byte[] imageDate)
@@ -122,7 +182,67 @@ public class MainPageViewModel : INotifyPropertyChanged
         await _webSocketHandler.SendMessageAsync(message);
     }
 
+    public async Task RequestVolumeData()
+    {
+        await _masterVolumeController.GetMasterVolumeData();
+    }
+
     #region Properties
+
+    public bool IsMuted
+    {
+        get => _isMuted;
+        set
+        {
+            if (_isMuted == value) return;
+            _isMuted = value;
+            _masterVolumeController.IsMuted = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public float MasterSoundLevel
+    {
+        get => _masterSoundLevel;
+        set
+        {
+            if (_masterSoundLevel == value || value < 0 || value > 1) return;
+            _masterSoundLevel = value;
+            _masterVolumeController.SoundLevel = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public TimeSpan SongDuration
+    {
+        get => _songDuration;
+        set
+        {
+            _songDuration = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public TimeSpan PlaybackPosition
+    {
+        get => _playbackPosition;
+        set
+        {
+            _playbackPosition = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public double PlaybackProgress
+    {
+        get => _playbackProgress;
+        set
+        {
+            if (value is < 0 or > 1) return;
+            _playbackProgress = value;
+            OnPropertyChanged();
+        }
+    }
 
     public string PlaybackStatusLabel
     {

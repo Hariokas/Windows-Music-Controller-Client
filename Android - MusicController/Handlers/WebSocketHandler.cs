@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using Android___MusicController.EventClasses;
@@ -16,8 +17,18 @@ public class WebSocketHandler
     public EventHandler<MasterVolumeEventArgs> MasterVolumeInfoReceived;
     public EventHandler<VolumeMixerEventArgs> VolumeMixerInfoReceived;
 
-    public WebSocketHandler(string ipAddress, string port)
+    private string ipAddress;
+    private string port;
+
+    private static readonly Lazy<WebSocketHandler> _lazyInstance =
+        new Lazy<WebSocketHandler>(() => new WebSocketHandler());
+
+    public static WebSocketHandler Instance => _lazyInstance.Value;
+
+    public WebSocketHandler()
     {
+        ipAddress = "192.168.0.107";
+        port = "8080";
         ConnectWebSocket(ipAddress, port);
     }
 

@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Android___MusicController"
+    xmlns:hamburgerMenuPages="using:Android___MusicController.HamburgerMenuPages"
     BackgroundColor="#404267"
     >
 
@@ -24,8 +25,11 @@
     <FlyoutItem Title="Sessions" Route="SessionsPage">
         <ShellContent ContentTemplate="{DataTemplate local:SessionsPage}"/>
     </FlyoutItem>
-    <FlyoutItem Title="Equalizer" Route="EqualizerPage">
-        <ShellContent ContentTemplate="{DataTemplate local:EqualizerPage}"/>
+    <FlyoutItem Title="Master Volume Control" Route="MasterVolumePage">
+        <ShellContent ContentTemplate="{DataTemplate hamburgerMenuPages:MasterVolumePage}"/>
+    </FlyoutItem>
+    <FlyoutItem Title="Volume Mixer Control" Route="VolumeMixerPage">
+        <ShellContent ContentTemplate="{DataTemplate hamburgerMenuPages:VolumeMixerPage}"/>
     </FlyoutItem>
 
 </Shell>

@@ -11,6 +11,7 @@ public partial class SessionsPage : ContentPage, INotifyPropertyChanged
     private readonly MediaSessionHandler _mediaSessionManager;
 
     public ObservableCollection<MediaInfo> MediaSessions { get; set; }
+
     
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,7 +19,7 @@ public partial class SessionsPage : ContentPage, INotifyPropertyChanged
     {
         InitializeComponent();
         //_mediaSessionManager = MediaSessionHandler.Instance;
-        _mediaSessionManager = new MediaSessionHandler();
+        _mediaSessionManager = MediaSessionHandler.Instance;
         _mediaSessionManager.PropertyChanged += MediaSessionManager_PropertyChanged;
         MediaSessions = new ObservableCollection<MediaInfo>();
         UpdateMediaSessions();

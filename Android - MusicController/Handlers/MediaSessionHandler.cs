@@ -8,8 +8,10 @@ namespace Android___MusicController.Handlers;
 
 public class MediaSessionHandler
 {
-
+    private static readonly Lazy<MediaSessionHandler> _instance = new Lazy<MediaSessionHandler>(() => new MediaSessionHandler());
     private int _currentMediaSessionId;
+
+    public static MediaSessionHandler Instance { get { return _instance.Value; } }
 
     public MediaSessionHandler()
     {
@@ -19,6 +21,7 @@ public class MediaSessionHandler
     public Dictionary<int, MediaInfo> MediaSessionInfos { get; }
 
     public event PropertyChangedEventHandler PropertyChanged;
+    public event EventHandler<PlaybackStatusChangedEventArgs> PlaybackStatusChanged;
 
     public void HandleMediaSessionEvent(MediaSessionEvent mediaSessionEvent)
     {
@@ -55,6 +58,12 @@ public class MediaSessionHandler
     {
         try
         {
+            if (MediaSessionInfos.ContainsKey(mediaSession.MediaSessionId))
+            {
+                Trace.WriteLine($"{nameof(MediaSessionInfos)} already contains a media session with ID {mediaSession.MediaSessionId}");
+                return;
+            }
+
             // Handle new session event
             var mediaInfo = new MediaInfo
             {
@@ -93,9 +102,9 @@ public class MediaSessionHandler
         {
             // Handle song changed event
             if (!MediaSessionInfos.TryGetValue(mediaSession.MediaSessionId, out var mediaSessionInfo))
-                AddNewMediaSession(mediaSession);
+                return;
 
-            MediaSessionInfos.TryGetValue(mediaSession.MediaSessionId, out mediaSessionInfo);
+            //MediaSessionInfos.TryGetValue(mediaSession.MediaSessionId, out mediaSessionInfo);
 
             if (!string.IsNullOrEmpty(mediaSession.MediaSessionName))
                 mediaSessionInfo.PlayerName = mediaSession.MediaSessionName;
@@ -109,6 +118,14 @@ public class MediaSessionHandler
             if (!string.IsNullOrEmpty(mediaSession.PlaybackStatus))
                 mediaSessionInfo.PlaybackStatus = mediaSession.PlaybackStatus;
 
+            mediaSessionInfo.CurrentPlaybackTime = mediaSession.CurrentPlaybackTime;
+            mediaSessionInfo.SongLength = mediaSession.SongLength;
+
+            var timeDifference = DateTime.UtcNow - mediaSession.Timestamp;
+            mediaSessionInfo.CurrentPlaybackTime = mediaSession.CurrentPlaybackTime + timeDifference;
+            mediaSessionInfo.SongLength = mediaSession.SongLength;
+
+            OnPlaybackStatusChanged(mediaSession.PlaybackStatus);
             OnPropertyChanged(nameof(MediaSessionInfos));
         }
         catch (Exception ex)
@@ -123,9 +140,9 @@ public class MediaSessionHandler
         {
             // Handle playback status changed event
             if (!MediaSessionInfos.TryGetValue(mediaSession.MediaSessionId, out var mediaSessionInfo))
-                AddNewMediaSession(mediaSession);
+                return;
 
-            MediaSessionInfos.TryGetValue(mediaSession.MediaSessionId, out mediaSessionInfo);
+            //MediaSessionInfos.TryGetValue(mediaSession.MediaSessionId, out mediaSessionInfo);
 
             if (!string.IsNullOrEmpty(mediaSession.MediaSessionName))
                 mediaSessionInfo.PlayerName = mediaSession.MediaSessionName;
@@ -139,12 +156,11 @@ public class MediaSessionHandler
             if (!string.IsNullOrEmpty(mediaSession.PlaybackStatus))
                 mediaSessionInfo.PlaybackStatus = mediaSession.PlaybackStatus;
 
-            //IdLabel.Text = $"Playback updated: [{mediaSession.MediaSessionId}]";
-            //MediaSessionLabel.Text = $"Playback updated: [{mediaSession.MediaSessionName}]";
-            //ArtistLabel.Text = mediaSession.Artist;
-            //SongNameLabel.Text = mediaSession.SongName;
-            //PlaybackStatusLabel.Text = mediaSession.PlaybackStatus;
+            var timeDifference = DateTime.UtcNow - mediaSession.Timestamp;
+            mediaSessionInfo.CurrentPlaybackTime = mediaSession.CurrentPlaybackTime + timeDifference;
+            mediaSessionInfo.SongLength = mediaSession.SongLength;
 
+            OnPlaybackStatusChanged(mediaSession.PlaybackStatus);
             OnPropertyChanged(nameof(MediaSessionInfos));
         }
         catch (Exception ex)
@@ -153,11 +169,17 @@ public class MediaSessionHandler
         }
     }
 
+    protected virtual void OnPlaybackStatusChanged(string playbackStatus)
+    {
+        PlaybackStatusChanged?.Invoke(this, new PlaybackStatusChangedEventArgs(playbackStatus));
+    }
+
     private void ChangeMediaSessionFocus(MediaSessionEvent mediaSession)
     {
         try
         {
             _currentMediaSessionId = mediaSession.MediaSessionId;
+
             // Remiantis situo, galima nustatyti kokia daina yra "pagrindine"
             // Handle session focus changed event (optional)
             //IdLabel.Text = $"Focus changed: [{mediaSession.MediaSessionId}]";

@@ -15,8 +15,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid
-        Padding="30"
+    <Grid Padding="30"
         HorizontalOptions="Fill"
         RowDefinitions="*, Auto, Auto"
         ColumnDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, *">
@@ -42,20 +41,20 @@
               Grid.ColumnSpan="7"
               HorizontalOptions="Center"
               VerticalOptions="Center"
-              RowDefinitions="*,*"
               ColumnDefinitions="*"
+              RowDefinitions="Auto, Auto, Auto, Auto, *"
               Padding="0,0,0,0">
 
             <Frame Grid.Row="0" Grid.Column="0"
                    Grid.ColumnSpan="1"
-                   Grid.RowSpan="2"
+                   Grid.RowSpan="5"
                    BackgroundColor="{StaticResource ForegroundColor}"
                    Margin="-10" HasShadow="False"
                    BorderColor="#00000000"/>
 
             <controls:MarqueeLabel x:Name="PlaybackStatusLabelCombined"
                Text="{Binding PlaybackStatusLabel}"
-               FontSize="Large"
+               FontSize="20"
                TextColor="{StaticResource PrimaryColor}"
                Grid.Row="0"
                Grid.Column="0" />
@@ -64,11 +63,121 @@
                         Grid.Column="0"
                         HorizontalScrollBarVisibility="Never"
                         Orientation="Horizontal">
+
                 <controls:MarqueeLabel x:Name="PlaybackInfoLabelCombined"
-                       Text="{Binding PlaybackInfoLabel}"
-                       FontSize="Large"
-                       TextColor="{StaticResource AccentColor}" />
+                                       Text="{Binding PlaybackInfoLabel}"
+                                       FontSize="24"
+                                       TextColor="{StaticResource AccentColor}" />
             </ScrollView>
+
+            <Grid x:Name="SoundControlGrid"
+                  Grid.Column="0"
+                  Grid.Row="2"
+                  RowSpan="2"
+                  RowDefinitions="*"
+                  ColumnDefinitions="Auto, *, Auto"
+                  Padding="15,0"
+                  VerticalOptions="Fill">
+
+                <Frame Grid.Column="0"
+                       Grid.ColumnSpan="3"
+                       BackgroundColor="#CC000000"
+                       VerticalOptions="Fill" HorizontalOptions="Fill"
+                       Margin="-20,25"
+                       HasShadow="False"
+                       BorderColor="#00000000"
+                       CornerRadius="20"/>
+
+                <ImageButton x:Name="VolumeDownImageButton"
+                             Clicked="VolumeDownImageButton_OnClicked"
+                             Source="volume_down.png" 
+                             HeightRequest="40" 
+                             WidthRequest="40"
+                             Grid.Row="0" 
+                             Grid.Column="0" 
+                             VerticalOptions="Center"/>
+
+                <Slider x:Name="VolumeSlider"
+                        ValueChanged="VolumeSlider_OnValueChanged"
+                        Value="{Binding MasterSoundLevel}"
+                        Minimum="0"
+                        Maximum="1"
+                        Grid.Row="0" 
+                        Grid.Column="1" 
+                        HorizontalOptions="Fill" 
+                        VerticalOptions="Center" 
+                        ThumbColor="{StaticResource AccentColor}" 
+                        MinimumTrackColor="{StaticResource AccentColor}"/>
+
+                <ImageButton x:Name="VolumeUpImageButton"
+                             Clicked="VolumeUpImageButton_OnClicked"
+                             Source="volume_up.png" 
+                             HeightRequest="40" 
+                             WidthRequest="40" 
+                             Grid.Row="0" 
+                             Grid.Column="2" 
+                             VerticalOptions="Center"/>
+
+            </Grid>
+
+            <Grid Grid.Row="3"
+                  Grid.Column="0"
+                  ColumnDefinitions="*, *, *"
+                  Padding="20,80, 20, 20">
+
+                <ImageButton x:Name="PlaylistButton" 
+                             Clicked="PlaylistButton_OnClicked"
+                             Source="playlist.png" 
+                             HeightRequest="30" 
+                             WidthRequest="30"
+                             HorizontalOptions="Start" 
+                             Grid.Column="0"/>
+
+                <ImageButton x:Name="VolumeButton" 
+                             Clicked="VolumeButton_OnClicked"
+                             Source="volume.png" 
+                             HeightRequest="30" 
+                             WidthRequest="30" 
+                             HorizontalOptions="Center" 
+                             Grid.Column="1" />
+
+                <ImageButton x:Name="VolumeMixerButton"
+                             Clicked="VolumeMixerButton_OnClicked"
+                             Source="equalizer.png" 
+                             HeightRequest="30" 
+                             WidthRequest="30" 
+                             HorizontalOptions="End" 
+                             Grid.Column="2"/>
+
+            </Grid>
+
+            <Grid Grid.Row="4"
+                  Grid.Column="0"
+                  ColumnDefinitions="Auto, *, Auto"
+                  Padding="10,20, 10, 10">
+
+                <Label Text="{Binding PlaybackPosition, StringFormat='{0:m\\:ss}'}" 
+                       x:Name="PlaybackCurrentTimeLabel"
+                       TextColor="{StaticResource AccentColor}" 
+                       FontSize="Medium" 
+                       VerticalOptions="Center" 
+                       Grid.Column="0" />
+
+                <ProgressBar Grid.Column="1" 
+                             x:Name="PlaybackProgressBar"
+                             Margin="10,0" 
+                             VerticalOptions="Center" 
+                             Progress="{Binding PlaybackProgress}" 
+                             ProgressColor="{StaticResource AccentColor}"/>
+
+                <Label Text="{Binding SongDuration, StringFormat='{0:m\\:ss}'}" 
+                       x:Name="PlaybackLengthLabel"
+                       TextColor="{StaticResource AccentColor}" 
+                       FontSize="Medium" 
+                       VerticalOptions="Center" 
+                       Grid.Column="2" />
+                
+            </Grid>
 
         </Grid>
 
@@ -92,7 +201,8 @@
             <ImageButton x:Name="PreviousButton"
                          Clicked="PreviousButton_OnClicked"
                          Source="previous.png"
-                         HeightRequest="80"
+                         HeightRequest="60"
+                         WidthRequest="60"
                          Grid.Column="0" 
                          Margin="10"/>
 
@@ -107,7 +217,8 @@
             <ImageButton x:Name="NextButton"
                          Clicked="NextButton_OnClicked"
                          Source="next.png"
-                         HeightRequest="80"
+                         HeightRequest="60"
+                         WidthRequest="60"
                          Grid.Column="2"
                          Margin="10"/>
         </Grid>
