@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Android___MusicController
+namespace Android___MusicController.EventClasses
 {
 
-    public enum EventType
+    public enum MediaSessionEventType
     {
         NewSession,
         CloseSession,
@@ -22,7 +22,7 @@ namespace Android___MusicController
 
     public class MediaSessionEvent
     {
-        public EventType EventType { get; set; }
+        public MediaSessionEventType MediaSessionEventType { get; set; }
         public int MediaSessionId { get; set; }
         public string MediaSessionName { get; set; }
         public string Artist { get; set; }

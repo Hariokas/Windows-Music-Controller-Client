@@ -1,4 +1,4 @@
-﻿namespace Android___MusicController;
+﻿namespace Android___MusicController.Models;
 
 public class MediaInfo
 {

@@ -1,18 +1,22 @@
 ﻿using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
+using Android___MusicController.EventClasses;
+using Newtonsoft.Json;
 
 namespace Android___MusicController;
 
-public class WebSocketService
+public class WebSocketHandler
 {
     private ClientWebSocket _clientWebSocket;
 
     public EventHandler<byte[]> OnBinaryMessageReceived;
 
-    public EventHandler<string> OnTextMessageReceived;
+    public EventHandler<MediaSessionEventArgs> MediaSessionInfoReceived;
+    public EventHandler<MasterVolumeEventArgs> MasterVolumeInfoReceived;
+    public EventHandler<VolumeMixerEventArgs> VolumeMixerInfoReceived;
 
-    public WebSocketService(string ipAddress, string port)
+    public WebSocketHandler(string ipAddress, string port)
     {
         ConnectWebSocket(ipAddress, port);
     }
@@ -122,7 +126,43 @@ public class WebSocketService
 
     private void ProcessTextMessage(string message)
     {
-        OnTextMessageReceived?.Invoke(this, message);
+        Trace.WriteLine($"Received message: {message}");
+        try
+        {
+            var baseEvent = JsonConvert.DeserializeObject<BaseEvent>(message);
+
+            switch (baseEvent.EventType)
+            {
+                case BaseEventType.MasterVolumeEvent:
+                    var masterVolumeEvent = JsonConvert.DeserializeObject<MasterVolumeEvent>(message)
+                                            ?? throw new ArgumentNullException(
+                                                $"Failed to deserialize {nameof(MasterVolumeEvent)}");
+                    MasterVolumeInfoReceived?.Invoke(this, new MasterVolumeEventArgs(masterVolumeEvent));
+                    break;
+
+                case BaseEventType.MediaSessionEvent:
+                    var mediaSessionEvent = JsonConvert.DeserializeObject<MediaSessionEvent>(message)
+                                            ?? throw new ArgumentNullException(
+                                                $"Failed to deserialize {nameof(MasterVolumeEvent)}");
+                    MediaSessionInfoReceived?.Invoke(this, new MediaSessionEventArgs(mediaSessionEvent));
+                    break;
+
+                case BaseEventType.VolumeMixerEvent:
+                    var volumeMixerEvent = JsonConvert.DeserializeObject<VolumeMixerEvent>(message)
+                                           ?? throw new ArgumentNullException(
+                                               $"Failed to deserialize {nameof(MasterVolumeEvent)}");
+                    VolumeMixerInfoReceived?.Invoke(this, new VolumeMixerEventArgs(volumeMixerEvent));
+                    break;
+
+                default:
+                    Trace.WriteLine($"Unknown event type: {baseEvent.EventType}");
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Trace.Write($"Error: {e.Message}");
+        }
     }
 
     private void ProcessBinaryMessage(byte[] message)
