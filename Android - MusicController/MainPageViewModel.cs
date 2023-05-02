@@ -26,7 +26,7 @@ public class MainPageViewModel : INotifyPropertyChanged
     private TimeSpan _playbackPosition;
     private double _playbackProgress;
 
-    private string _playbackStatusLabel;
+    private string _playbackStatusLabel = "Waiting for your music to start";
     private string _playbackStatusLabelText = "Playback Status Label";
 
     private CancellationTokenSource _playbackTimerCancellationTokenSource = new();
@@ -58,7 +58,7 @@ public class MainPageViewModel : INotifyPropertyChanged
 
     private async void MediaSessionHandler_PlaybackStatusChanged(object sender, PlaybackStatusChangedEventArgs e)
     {
-        if (e.PlaybackStatus == "Paused" && _timerRunning)
+        if (e.PlaybackStatus == "Paused" && _timerRunning && !_playbackTimerCancellationTokenSource.IsCancellationRequested)
         {
             _playbackTimerCancellationTokenSource.Cancel();
         }
@@ -137,19 +137,31 @@ public class MainPageViewModel : INotifyPropertyChanged
 
         _timerRunning = true;
 
-        var token = _playbackTimerCancellationTokenSource.Token;
-        while (!token.IsCancellationRequested)
+        try
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), token);
-            MainThread.BeginInvokeOnMainThread(() =>
+            var token = _playbackTimerCancellationTokenSource.Token;
+            while (!token.IsCancellationRequested)
             {
-                PlaybackPosition += TimeSpan.FromSeconds(1);
-                PlaybackProgress = PlaybackPosition.TotalSeconds / SongDuration.TotalSeconds;
-            });
+                await Task.Delay(TimeSpan.FromSeconds(1), token);
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    PlaybackPosition += TimeSpan.FromSeconds(1);
+                    PlaybackProgress = PlaybackPosition.TotalSeconds / SongDuration.TotalSeconds;
+                });
+            }
         }
+        catch (TaskCanceledException)
+        {
 
-        _timerRunning = false;
-
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine(ex.Message);
+        }
+        finally
+        {
+            _timerRunning = false;
+        }
     }
 
     private void LoadImageFromByteArray(byte[] imageDate)
