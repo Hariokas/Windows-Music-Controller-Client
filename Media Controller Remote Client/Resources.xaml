@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Media_Controller_Remote_Client.Dictionary1">
+
+    <Color x:Key="BackgroundColor">#201E45</Color>
+    <Color x:Key="ForegroundColor">#404267</Color>
+    <Color x:Key="PrimaryColor">#E4E4EF</Color>
+    <Color x:Key="AccentColor">#F07B7B</Color>
+    <Color x:Key="DisabledColor">#A0A0A0</Color>
+
+</ResourceDictionary>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Media_Controller_Remote_Client.HamburgerMenuPages.MasterVolumePage"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             Title="Master Volume Control">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout>
+        <Label TextColor="{StaticResource PrimaryColor}"
+               Text="Welcome to Master Volume Control page!"
+               VerticalOptions="Center" 
+               HorizontalOptions="Center" />
+
+        <Slider x:Name="SoundLevelSlider"
+                Value="{Binding SoundLevel}"
+                Minimum="0"
+                Maximum="1"
+                HorizontalOptions="Fill"
+        />
+
+    </VerticalStackLayout>
+
+</ContentPage>
