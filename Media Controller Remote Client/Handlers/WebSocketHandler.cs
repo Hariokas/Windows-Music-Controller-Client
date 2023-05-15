@@ -1,38 +1,34 @@
 ﻿using System.Diagnostics;
-using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using Media_Controller_Remote_Client.EventClasses;
 using Newtonsoft.Json;
 
-namespace Media_Controller_Remote_Client;
+namespace Media_Controller_Remote_Client.Handlers;
 
 public class WebSocketHandler
 {
+    private static readonly Lazy<WebSocketHandler> _lazyInstance = new(() => new WebSocketHandler());
+
+    public string IpAddress => Preferences.Get("IpAddress", string.Empty);
+    public string Port => Preferences.Get("Port", string.Empty);
+
+
+
     private ClientWebSocket _clientWebSocket;
-
-    public EventHandler<byte[]> OnBinaryMessageReceived;
-
-    public EventHandler<MediaSessionEventArgs> MediaSessionInfoReceived;
     public EventHandler<MasterVolumeEventArgs> MasterVolumeInfoReceived;
+    public EventHandler<MediaSessionEventArgs> MediaSessionInfoReceived;
+    public EventHandler<byte[]> OnBinaryMessageReceived;
     public EventHandler<VolumeMixerEventArgs> VolumeMixerInfoReceived;
-
-    private string ipAddress;
-    private string port;
-
-    private static readonly Lazy<WebSocketHandler> _lazyInstance =
-        new Lazy<WebSocketHandler>(() => new WebSocketHandler());
-
-    public static WebSocketHandler Instance => _lazyInstance.Value;
 
     public WebSocketHandler()
     {
-        ipAddress = "192.168.0.107";
-        port = "8080";
-        ConnectWebSocket(ipAddress, port);
+        ConnectWebSocket();
     }
 
-    private async void ConnectWebSocket(string ipAddress, string port)
+    public static WebSocketHandler Instance => _lazyInstance.Value;
+
+    private async void ConnectWebSocket()
     {
         while (true)
         {
@@ -44,11 +40,12 @@ public class WebSocketHandler
                 using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3)))
                 {
                     Debug.WriteLine("Connecting to the host");
-                    await _clientWebSocket.ConnectAsync(new Uri($"ws://{ipAddress}:{port}"), cts.Token);
+                    await _clientWebSocket.ConnectAsync(new Uri($"ws://{IpAddress}:{Port}"), cts.Token);
                 }
 
-                Debug.WriteLine($"Connected to host at ws://{ipAddress}:{port}");
+                Debug.WriteLine($"Connected to host at ws://{IpAddress}:{Port}");
                 await ReceiveMessagesAsync();
+                Debug.WriteLine("Connection lost");
             }
             catch (WebSocketException ex)
             {
@@ -77,8 +74,7 @@ public class WebSocketHandler
             }
 
             // Reconnect after a delay
-            Debug.WriteLine("Connection lost");
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromSeconds(3));
             Debug.WriteLine("Reconnecting to the host...");
         }
     }

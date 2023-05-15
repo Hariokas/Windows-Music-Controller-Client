@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Media_Controller_Remote_Client.EventClasses;
+using Media_Controller_Remote_Client.Handlers;
 using Newtonsoft.Json;
 
 namespace Media_Controller_Remote_Client.Controllers;

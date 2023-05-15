@@ -109,6 +109,9 @@
 	  <MauiXaml Update="HamburgerMenuPages\MasterVolumePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="HamburgerMenuPages\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="HamburgerMenuPages\VolumeMixerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

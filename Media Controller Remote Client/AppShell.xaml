@@ -31,5 +31,8 @@
     <FlyoutItem Title="Volume Mixer Control" Route="VolumeMixerPage">
         <ShellContent ContentTemplate="{DataTemplate hamburgerMenuPages:VolumeMixerPage}"/>
     </FlyoutItem>
+    <FlyoutItem Title="Settings" Route="SettingsPage">
+        <ShellContent ContentTemplate="{DataTemplate hamburgerMenuPages:SettingsPage}"/>
+    </FlyoutItem>
 
 </Shell>
