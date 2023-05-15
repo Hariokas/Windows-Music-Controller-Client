@@ -22,9 +22,22 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
-                    <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource ForegroundColor}">
-                        <Label Text="{Binding DisplayName}" VerticalOptions="Center" TextColor="WhiteSmoke" />
-                        <Slider Value="{Binding Volume}" Minimum="0" Maximum="1" ValueChanged="OnSliderValueChanged" VerticalOptions="Center" BackgroundColor="{StaticResource AccentColor}" />
+                    <StackLayout Orientation="Vertical" 
+                                 BackgroundColor="{StaticResource ForegroundColor}" 
+                                 Padding="20,0" >
+
+                        <Label Text="{Binding DisplayName}" 
+                               VerticalOptions="Center" 
+                               TextColor="WhiteSmoke"
+                               Padding="0,0,0,5"/>
+
+                        <Slider Value="{Binding Volume}" 
+                                Minimum="0" Maximum="1" 
+                                ValueChanged="OnSliderValueChanged" 
+                                VerticalOptions="Center" 
+                                ThumbColor="{StaticResource AccentColor}"
+                                MinimumTrackColor="{StaticResource AccentColor}" />
+
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>

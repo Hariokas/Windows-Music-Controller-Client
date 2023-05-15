@@ -90,5 +90,11 @@ namespace Media_Controller_Remote_Client.Models
                 Trace.WriteLine($"[VolumeMixerViewModel]: {ex}");
             }
         }
+
+        public void UnsubscribeEvents()
+        {
+            _webSocketHandler.VolumeMixerInfoReceived -= VolumeMixerInfoReceived;
+        }
+
     }
 }

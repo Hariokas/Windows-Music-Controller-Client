@@ -16,6 +16,13 @@ public partial class VolumeMixerPage : ContentPage
         _ = viewModel.LoadVolumes();
     }
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        var viewModel = (VolumeMixerViewModel)BindingContext;
+        viewModel.UnsubscribeEvents();
+    }
+
     void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
     {
         var slider = sender as Slider;
