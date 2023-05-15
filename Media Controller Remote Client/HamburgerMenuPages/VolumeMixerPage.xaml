@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="using:Media_Controller_Remote_Client.Models"
              x:Class="Media_Controller_Remote_Client.HamburgerMenuPages.VolumeMixerPage"
              BackgroundColor="{StaticResource BackgroundColor}"
              Title="Volume Mixer Control">
@@ -13,10 +14,20 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <VerticalStackLayout>
-        <Label TextColor="{StaticResource PrimaryColor}"
-               Text="Welcome to Volume Mixer Control page!"
-               VerticalOptions="Center" 
-               HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ContentPage.BindingContext>
+        <models:VolumeMixerViewModel />
+    </ContentPage.BindingContext>
+
+    <ListView ItemsSource="{Binding ApplicationVolumes}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding DisplayName}" VerticalOptions="Center" />
+                        <Slider Value="{Binding Volume}" Minimum="0" Maximum="1" ValueChanged="OnSliderValueChanged" VerticalOptions="Center" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>

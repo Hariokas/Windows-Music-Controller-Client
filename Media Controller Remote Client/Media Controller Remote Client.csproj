@@ -97,9 +97,6 @@
 	  <Compile Update="Resources.xaml.cs">
 	    <DependentUpon>Resources.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="HamburgerMenuPages\EqualizerPage.xaml.cs">
-	    <DependentUpon>EqualizerPage.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="HamburgerMenuPages\SessionsPage.xaml.cs">
 	    <DependentUpon>SessionsPage.xaml</DependentUpon>
 	  </Compile>
@@ -116,9 +113,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="HamburgerMenuPages\EqualizerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="HamburgerMenuPages\SessionsPage.xaml">
